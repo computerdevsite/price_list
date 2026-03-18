@@ -6,14 +6,13 @@
     <title>IAYC PRICE LIST - STANDALONE</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Modern Classic Palette */
         :root { 
             --primary: #1e272e; 
-            --accent: #d4af37; /* Gold Classic */
+            --accent: #d4af37; 
             --bg: #f1f2f6; 
             --card-bg: #ffffff;
             --text-main: #2f3542;
-            --text-sub: #57606f;
+            --footer-bg: #fff9e6;
         }
 
         body { 
@@ -21,49 +20,58 @@
             margin: 0; 
             background-color: var(--bg); 
             color: var(--text-main);
+            /* Padding para hindi matakpan ng fixed header at footer */
+            padding-top: 140px; 
+            padding-bottom: 70px;
         }
 
-        /* Elegant Header */
+        /* FIXED HEADER SECTION */
+        .fixed-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--bg);
+        }
+
         .header { 
             background: var(--primary); 
             color: #ffffff; 
-            padding: 25px 15px; 
+            padding: 15px; 
             text-align: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             border-bottom: 3px solid var(--accent);
         }
 
         .header h1 {
             margin: 0;
-            font-size: 22px;
+            font-size: 18px;
             letter-spacing: 2px;
             font-weight: 700;
             text-transform: uppercase;
         }
 
-        .container { 
-            max-width: 700px; 
-            margin: 20px auto; 
-            padding: 0 15px; 
+        /* SEARCH BAR SA ILALIM NG HEADER */
+        .search-wrapper {
+            padding: 15px;
+            background: var(--bg);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* Glassmorphism Search Bar */
         .search-container { 
             position: relative; 
-            margin-bottom: 25px; 
-            margin-top: -10px;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         #search { 
             width: 100%; 
-            padding: 16px 20px 16px 50px; 
+            padding: 12px 20px 12px 45px; 
             font-size: 16px; 
             border: 1px solid rgba(0,0,0,0.1); 
-            border-radius: 12px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06); 
+            border-radius: 50px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
             outline: none; 
             box-sizing: border-box;
             transition: all 0.3s ease;
@@ -72,126 +80,132 @@
 
         #search:focus {
             border-color: var(--accent);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
         }
 
         .search-icon { 
             position: absolute; 
-            left: 18px; 
+            left: 15px; 
             top: 50%; 
             transform: translateY(-50%); 
             color: var(--accent);
-            font-size: 1.1rem;
         }
 
-        /* Modern Card Design */
+        /* MAIN CONTENT */
+        .container { 
+            max-width: 700px; 
+            margin: 0 auto; 
+            padding: 0 15px; 
+        }
+
         .item-card { 
             background: var(--card-bg); 
-            margin-bottom: 12px; 
-            padding: 20px; 
-            border-radius: 16px; 
+            margin-bottom: 10px; 
+            padding: 18px; 
+            border-radius: 12px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            box-shadow: 0 3px 10px rgba(0,0,0,0.04); 
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
             border-left: 0px solid var(--accent);
+            transition: all 0.2s;
         }
 
         .item-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
             border-left: 5px solid var(--accent);
-        }
-
-        .info {
-            flex: 1;
-            padding-right: 15px;
+            background: #fafafa;
         }
 
         .name { 
             font-weight: 700; 
             color: var(--primary); 
             text-transform: uppercase; 
-            font-size: 13px; 
-            letter-spacing: 0.5px;
-            display: block;
+            font-size: 12px; 
             line-height: 1.4;
         }
 
-        .price-wrapper {
-            text-align: right;
-            min-width: 110px;
-        }
-
         .price { 
-            font-size: 19px; 
+            font-size: 18px; 
             font-weight: 800; 
             color: var(--primary);
-            font-family: 'Courier New', Courier, monospace; /* Classic Feel */
+            font-family: 'Courier New', monospace;
         }
 
-        /* Sophisticated Labor Badge */
         .labor-badge { 
             display: inline-flex;
             align-items: center;
             gap: 5px;
             background: #fff9e6; 
             color: #996515; 
-            padding: 4px 10px; 
-            border-radius: 6px; 
-            font-size: 10px; 
+            padding: 3px 8px; 
+            border-radius: 4px; 
+            font-size: 9px; 
             font-weight: 800; 
             border: 1px solid #ffeaa7; 
-            margin-top: 8px;
+            margin-top: 5px;
             text-transform: uppercase;
         }
 
-        #loading { 
-            text-align: center; 
-            padding: 60px; 
-            color: var(--primary); 
-            font-weight: bold;
-            letter-spacing: 1px;
+        /* FIXED FOOTER */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--footer-bg);
+            color: #1e272e;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            border-top: 2px solid var(--accent);
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
 
-        .fa-spin {
-            color: var(--accent);
-            margin-bottom: 10px;
+        .footer span {
+            color: #d63031;
+            display: block;
+            font-size: 10px;
         }
 
+        #loading { text-align: center; padding: 60px; font-weight: bold; }
         .error { color: #d63031; text-align: center; padding: 20px; font-weight: bold; }
 
-        /* Responsive */
         @media (max-width: 480px) {
-            .name { font-size: 12px; }
-            .price { font-size: 17px; }
-            .header h1 { font-size: 18px; }
+            body { padding-top: 130px; }
+            .price { font-size: 16px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>IAYC PRICE LIST</h1>
+    <div class="fixed-top">
+        <div class="header">
+            <h1>IAYC PRICE LIST</h1>
+        </div>
+        <div class="search-wrapper">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search" placeholder="Search item name..." onkeyup="filterData()">
+            </div>
+        </div>
     </div>
 
     <div class="container">
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="search" placeholder="Search product or part..." onkeyup="filterData()">
-        </div>
-
         <div id="loading">
             <i class="fas fa-spinner fa-spin fa-2x"></i><br>
-            CONNECTING TO DATABASE...
+            LOADING DATABASE...
         </div>
-        
         <div id="list"></div>
     </div>
 
+    <div class="footer">
+        2025 UPDATES
+        
+    </div>
+
     <script>
-        // PALITAN ITO NG IYONG DEPLOYED WEB APP URL
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxKgplDZf68aeZfyAOUSYXiIN-deW0bWRYCa6qshVVBN_u_NLCDGWqoIcQalL9gYvMQbQ/exec"; 
 
         let inventory = [];
@@ -199,34 +213,30 @@
         async function fetchData() {
             try {
                 const response = await fetch(WEB_APP_URL);
-                const data = await response.json();
-                inventory = data;
+                inventory = await response.json();
                 document.getElementById('loading').style.display = 'none';
                 displayData(inventory);
             } catch (error) {
-                console.error("Error:", error);
-                document.getElementById('loading').innerHTML = 
-                    '<div class="error"><i class="fas fa-exclamation-circle"></i> CONNECTION ERROR<br><small>Check Web App URL and Permissions</small></div>';
+                document.getElementById('loading').innerHTML = '<div class="error">CONNECTION ERROR</div>';
             }
         }
 
         function displayData(data) {
             const listDiv = document.getElementById('list');
-            listDiv.innerHTML = data.length === 0 ? '<div style="text-align:center; padding:20px; opacity:0.5;">Walang nahanap na item.</div>' : '';
+            listDiv.innerHTML = data.length === 0 ? '<div style="text-align:center; padding:20px; opacity:0.5;">No results.</div>' : '';
             
             data.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'item-card';
-                
                 const formattedPrice = item.price ? '₱' + Number(item.price).toLocaleString(undefined, {minimumFractionDigits: 2}) : '---';
                 const laborHtml = item.hasLabor ? '<div class="labor-badge"><i class="fas fa-tools"></i> PLUS SERVICE FEE</div>' : '';
 
                 card.innerHTML = `
-                    <div class="info">
-                        <span class="name">${item.item}</span>
+                    <div>
+                        <span class="name">${item.item}</span><br>
                         ${laborHtml}
                     </div>
-                    <div class="price-wrapper">
+                    <div style="text-align:right">
                         <span class="price">${formattedPrice}</span>
                     </div>
                 `;
