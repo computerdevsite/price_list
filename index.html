@@ -9,39 +9,41 @@
         :root { 
             --primary: #1e272e; 
             --accent: #d4af37; 
-            --bg: #f1f2f6; 
-            --card-bg: #ffffff;
+            /* In-adjust ang BG colors para mag-match sa GIF */
+            --bg: rgba(30, 39, 46, 0.8); 
+            --card-bg: rgba(255, 255, 255, 0.9);
             --text-main: #2f3542;
-            --footer-bg: #fff9e6;
+            --footer-bg: #1e272e;
         }
 
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             margin: 0; 
-            background-color: var(--bg); 
+            background-image: url('https://i.pinimg.com/originals/c4/05/e5/c405e59f2114f36defe07f92a771d9a5.gif');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
             color: var(--text-main);
-            /* Padding para hindi matakpan ng fixed header at footer */
             padding-top: 140px; 
             padding-bottom: 70px;
         }
 
-        /* FIXED HEADER SECTION */
         .fixed-top {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            background: var(--bg);
+            /* Ginawang semi-transparent para mag-match sa background */
+            background: rgba(30, 39, 46, 0.95);
+            border-bottom: 2px solid var(--accent);
         }
 
         .header { 
-            background: var(--primary); 
+            background: transparent; 
             color: #ffffff; 
             padding: 15px; 
             text-align: center; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            border-bottom: 3px solid var(--accent);
         }
 
         .header h1 {
@@ -52,11 +54,9 @@
             text-transform: uppercase;
         }
 
-        /* SEARCH BAR SA ILALIM NG HEADER */
         .search-wrapper {
             padding: 15px;
-            background: var(--bg);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            background: transparent;
         }
 
         .search-container { 
@@ -69,9 +69,9 @@
             width: 100%; 
             padding: 12px 20px 12px 45px; 
             font-size: 16px; 
-            border: 1px solid rgba(0,0,0,0.1); 
+            border: 1px solid rgba(255,255,255,0.2); 
             border-radius: 50px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
             outline: none; 
             box-sizing: border-box;
             transition: all 0.3s ease;
@@ -80,7 +80,7 @@
 
         #search:focus {
             border-color: var(--accent);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
         }
 
         .search-icon { 
@@ -91,7 +91,6 @@
             color: var(--accent);
         }
 
-        /* MAIN CONTENT */
         .container { 
             max-width: 700px; 
             margin: 0 auto; 
@@ -106,14 +105,17 @@
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
             border-left: 0px solid var(--accent);
             transition: all 0.2s;
+            /* Glass effect */
+            backdrop-filter: blur(5px);
         }
 
         .item-card:hover {
             border-left: 5px solid var(--accent);
-            background: #fafafa;
+            background: #ffffff;
+            transform: scale(1.02);
         }
 
         .name { 
@@ -131,6 +133,14 @@
             font-family: 'Courier New', monospace;
         }
 
+        .card-price {
+            display: block;
+            font-size: 11px;
+            color: #d63031;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
         .labor-badge { 
             display: inline-flex;
             align-items: center;
@@ -146,31 +156,24 @@
             text-transform: uppercase;
         }
 
-        /* FIXED FOOTER */
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background: var(--footer-bg);
-            color: #1e272e;
+            color: #ffffff;
             padding: 10px;
             text-align: center;
             font-size: 12px;
             font-weight: 700;
             border-top: 2px solid var(--accent);
             z-index: 1000;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.3);
         }
 
-        .footer span {
-            color: #d63031;
-            display: block;
-            font-size: 10px;
-        }
-
-        #loading { text-align: center; padding: 60px; font-weight: bold; }
-        .error { color: #d63031; text-align: center; padding: 20px; font-weight: bold; }
+        #loading { text-align: center; padding: 60px; font-weight: bold; color: white; }
+        .error { color: #ff7675; text-align: center; padding: 20px; font-weight: bold; }
 
         @media (max-width: 480px) {
             body { padding-top: 130px; }
@@ -202,7 +205,6 @@
 
     <div class="footer">
         2025 UPDATES
-        
     </div>
 
     <script>
@@ -223,12 +225,18 @@
 
         function displayData(data) {
             const listDiv = document.getElementById('list');
-            listDiv.innerHTML = data.length === 0 ? '<div style="text-align:center; padding:20px; opacity:0.5;">No results.</div>' : '';
+            listDiv.innerHTML = data.length === 0 ? '<div style="text-align:center; padding:20px; color:white; opacity:0.8;">No results.</div>' : '';
             
             data.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'item-card';
-                const formattedPrice = item.price ? '₱' + Number(item.price).toLocaleString(undefined, {minimumFractionDigits: 2}) : '---';
+                
+                const cashPrice = item.price ? Number(item.price) : 0;
+                const formattedPrice = cashPrice ? '₱' + cashPrice.toLocaleString(undefined, {minimumFractionDigits: 2}) : '---';
+                
+                const cardPriceVal = cashPrice * 1.03;
+                const formattedCardPrice = cashPrice ? 'SRP: ₱' + cardPriceVal.toLocaleString(undefined, {minimumFractionDigits: 2}) : '';
+
                 const laborHtml = item.hasLabor ? '<div class="labor-badge"><i class="fas fa-tools"></i> PLUS SERVICE FEE</div>' : '';
 
                 card.innerHTML = `
@@ -238,6 +246,7 @@
                     </div>
                     <div style="text-align:right">
                         <span class="price">${formattedPrice}</span>
+                        <span class="card-price">${formattedCardPrice}</span>
                     </div>
                 `;
                 listDiv.appendChild(card);
